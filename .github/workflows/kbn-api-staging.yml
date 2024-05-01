@@ -1,30 +1,32 @@
-name: "[HML] KBN API Project"
+name: "[HML] kbn-api project"
+
 on:
-  workflow_dispatch: 
+  push:
+    branches:
+      - "develop"
+  workflow_dispatch:
 
 jobs:
   maven_build:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
-      
+
       - name: Set up JDK 17 for x64
         uses: actions/setup-java@v4
         with:
           java-version: "17"
           distribution: "temurin"
           architecture: x64
-      
-      - name: Set version package
-        working-directory: ./kbn-api
-        run: mvn versions:set -DnewVersion=staging
-      
-      - name: Run the maven package
-        working-directory: ./kbn-api
-        run: mvn -DskipTests clean package
 
-      - name: Upload artifact
+      - name: Set version and build package
+        working-directory: ./kbn-api
+        run: |
+          mvn versions:set -DnewVersion=staging
+          mvn -DskipTests clean package
+
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: kbn-api
@@ -34,20 +36,61 @@ jobs:
     needs: maven_build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        name: checkout
-      
-      - name: Download a single artifact
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: kbn-api
-      
-      - name: Copy downloaded artifacts to . for Dockerfile
+
+      - name: Copy Artifact to Dockerfile directory
         run: cp -av kbn-api-staging.jar ./kbn-api/
-      
+
       - name: Build and push Docker image
         working-directory: ./kbn-api
         run: |
-          docker build --build-arg APP_NAME=kbn-api-staging --tag gnuvinicius/kbn-api:staging .
+          docker build --build-arg APP_NAME=kbn-api-staging \
+            --build-arg POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+            --build-arg POSTGRES_PASSWD=${{ secrets.POSTGRES_PASSWD }} --tag ${{ secrets.DOCKERHUB_USERNAME }}/kbn-api:staging .
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-          docker push gnuvinicius/kbn-api:staging
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/kbn-api:staging
+
+  dev-deploy:
+    needs: push_to_registry
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install kubectl CLI
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.26.0'
+
+      - name: Set kubeconfig file
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Save Nginx Ingress Controller IP as a GITHUB Environment Variable
+        run: |
+          echo "INGRESS_IP=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")" >> $GITHUB_ENV
+
+      - name: Replace token in manifest files
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '_{_'
+          tokenSuffix: '_}_'
+          files: '["kbn-api/k8s/*.yaml"]'
+        env:
+          IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/kbn-api:staging
+          INGRESS_IP: ${{ env.INGRESS_IP }}
+
+      - name: Deploy in Development Environment
+        run: |
+          kubectl delete -f kbn-api/k8s/deployment.yaml
+          kubectl create -f kbn-api/k8s/deployment.yaml
+          kubectl apply -f kbn-api/k8s/service.yaml
+          kubectl apply -f kbn-api/k8s/ingress.yaml
