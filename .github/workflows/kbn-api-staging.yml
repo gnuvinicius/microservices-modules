@@ -1,0 +1,53 @@
+name: "[HML] KBN API Project"
+on:
+  workflow_dispatch: 
+
+jobs:
+  maven_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 17 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          architecture: x64
+      
+      - name: Set version package
+        working-directory: ./kbn-api
+        run: mvn versions:set -DnewVersion=staging
+      
+      - name: Run the maven package
+        working-directory: ./kbn-api
+        run: mvn -DskipTests clean package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kbn-api
+          path: ./kbn-api/target/kbn-api-staging.jar
+
+  push_to_registry:
+    needs: maven_build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: checkout
+      
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: kbn-api
+      
+      - name: Copy downloaded artifacts to . for Dockerfile
+        run: cp -av kbn-api-staging.jar ./kbn-api/
+      
+      - name: Build and push Docker image
+        working-directory: ./kbn-api
+        run: |
+          docker build --build-arg APP_NAME=kbn-api-staging --tag gnuvinicius/kbn-api:staging .
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push gnuvinicius/kbn-api:staging

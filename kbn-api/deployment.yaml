@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kbn-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kbn-api
+  template:
+    metadata:
+      labels:
+        app: kbn-api
+    spec:
+      containers:
+        - name: kbn-api
+          image: gnuvinicius/kbn-api:staging
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8081
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kbn-service
+spec:
+  selector:
+    app: kbn-api
+  ports:
+    - port: 8081
+      protocol: TCP

@@ -1,0 +1,96 @@
+name: "[HML] Auth-api project"
+
+on:
+  push:
+    branches: 
+      - "develop"
+  workflow_dispatch: 
+
+jobs:
+  maven_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      
+      - name: Set up JDK 17 for x64
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          architecture: x64
+
+      - name: Set version and build package 
+        working-directory: ./auth-api
+        run: | 
+          mvn versions:set -DnewVersion=staging
+          mvn -DskipTests clean package
+      
+      - name: Upload 
+        uses: actions/upload-artifact@v4
+        with:
+          name: auth-api
+          path: ./auth-api/target/auth-api-staging.jar
+
+  push_to_registry:
+    needs: maven_build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: auth-api
+
+      - name: Copy Artifact to Dockerfile directory
+        run: cp -av auth-api-staging.jar ./auth-api/
+
+      - name: Build and push Docker image
+        working-directory: ./auth-api
+        run: |
+          docker build --build-arg APP_NAME=auth-api-staging \
+            --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
+            --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --tag ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging .
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging
+
+  dev-deploy:
+    needs: push_to_registry
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install kubectl CLI
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.26.0'
+
+      - name: Set kubeconfig file
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+
+      - name: Save Nginx Ingress Controller IP as a GITHUB Environment Variable
+        run: |
+          echo "INGRESS_IP=$(kubectl -n ingress-nginx get svc ingress-nginx-controller -o jsonpath="{.status.loadBalancer.ingress[0].ip}")" >> $GITHUB_ENV
+
+      - name: Replace token in manifest files
+        uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '_{_'
+          tokenSuffix: '_}_'
+          files: '["auth-api/k8s/*.yaml"]'
+        env:
+          IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging
+          INGRESS_IP: ${{ env.INGRESS_IP }}
+      
+      - name: Deploy in Development Environment
+        run: |
+          kubectl delete -f auth-api/k8s/deployment.yaml
+          kubectl create -f auth-api/k8s/deployment.yaml
+          kubectl apply -f auth-api/k8s/service.yaml
+          kubectl apply -f auth-api/k8s/ingress.yaml

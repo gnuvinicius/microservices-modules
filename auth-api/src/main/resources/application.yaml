@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000
+
+spring:
+  application:
+    name: auth
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${AUTH_DATABASE}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWD}
+  flyway:
+    enabled: true
+    url: jdbc:postgresql://${POSTGRES_HOST}:5432/${AUTH_DATABASE}
+    password: ${POSTGRES_PASSWD}
+    user: ${POSTGRES_USER}
+    schemas:
+    - public
+    locations:
+    - classpath:db/migration
