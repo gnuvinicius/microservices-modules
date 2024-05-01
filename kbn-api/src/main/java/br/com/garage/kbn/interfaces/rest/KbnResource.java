@@ -29,7 +29,7 @@ public class KbnResource extends AbstractResource {
   public ResponseEntity<?> getAll() {
     loadJwtRequest();
     try {
-      return ResponseEntity.ok(repository.findByTenantId(UUID.fromString(request.getTenantId())));
+      return ResponseEntity.ok(repository.findByTenantId(UUID.fromString(request.tenantId())));
     } catch (Exception e) {
       return ResponseEntity.badRequest().body(new MessageError(400, e.getMessage()));
     }
@@ -42,7 +42,7 @@ public class KbnResource extends AbstractResource {
 
     try {
       loadJwtRequest();
-      var projeto = new Projeto(dto.getTitulo(), request.getTenantId(), request.getUserId());
+      var projeto = new Projeto(dto.getTitulo(), request.tenantId(), request.userId());
 
       Projeto entity = repository.save(projeto);
       logger.info("cadastro realizado com sucesso: {}", entity.getTitulo());

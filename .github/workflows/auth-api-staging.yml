@@ -51,8 +51,8 @@ jobs:
         working-directory: ./auth-api
         run: |
           docker build --build-arg APP_NAME=auth-api-staging \
-            --build-arg DATABASE_HOST=${{ secrets.DATABASE_HOST }} \
-            --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} --tag ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging .
+            --build-arg POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+            --build-arg POSTGRES_PASSWD=${{ secrets.POSTGRES_PASSWD }} --tag ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging .
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging
 
