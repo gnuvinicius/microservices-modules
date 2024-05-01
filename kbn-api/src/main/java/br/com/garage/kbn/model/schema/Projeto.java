@@ -5,6 +5,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
+@NoArgsConstructor
 @Table(name = "tb_projetos")
 public class Projeto extends AggregateRoot implements Serializable {
 
@@ -21,13 +23,10 @@ public class Projeto extends AggregateRoot implements Serializable {
   @OneToMany(mappedBy = "projeto", fetch = FetchType.EAGER)
   private List<Task> tasks;
 
-  private Projeto() {}
-
   public Projeto(String titulo, String tenantId, String userId) {
     this.titulo = titulo;
     this.tenantId = UUID.fromString(tenantId);
     this.userId = UUID.fromString(userId);
     this.tasks = new ArrayList<>();
   }
-
 }
