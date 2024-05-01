@@ -90,7 +90,6 @@ jobs:
 
       - name: Deploy in Development Environment
         run: |
-          kubectl delete -f kbn-api/k8s/deployment.yaml
-          kubectl create -f kbn-api/k8s/deployment.yaml
+          kubectl apply -f kbn-api/k8s/deployment.yaml
           kubectl apply -f kbn-api/k8s/service.yaml
           kubectl apply -f kbn-api/k8s/ingress.yaml
