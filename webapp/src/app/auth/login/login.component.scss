@@ -1,0 +1,33 @@
+.wbp-container {
+  height: 100%;
+  background-color: #262930;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  
+  .control {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    // border: 1px solid black;
+    width: 100%;
+    margin-top: 20px;
+
+    button {
+      width: 100px;
+      background-color: #58B7D3;
+      padding: 6px 15px 6px 15px;
+      border: none;
+      border-radius: 5px;
+      color: #e4e4e4;
+      outline: none;
+    }
+  }
+
+  .divisor {
+    border: 1px solid #353944;
+    width: 300px;
+    margin: 20px;
+  }
+}
