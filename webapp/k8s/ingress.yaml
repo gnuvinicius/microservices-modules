@@ -7,7 +7,7 @@ spec:
     - http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /webapp
             backend:
               service:
                 name: webapp-service
