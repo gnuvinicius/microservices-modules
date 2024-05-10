@@ -4,11 +4,11 @@ import { SignupComponent } from './auth/signup/signup.component';
 
 export const routes: Routes = [
   {
-    path: 'webapp/auth',
+    path: 'auth',
     component: LoginComponent
   },
   {
-    path: 'webapp/signup',
+    path: 'signup',
     component: SignupComponent
   }
 ];
