@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 export const routes: Routes = [
   {
     path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+    component: LoginComponent
   },
   {
-    path: 'kbn',
-    loadChildren: () => import('./kbn/kbn.module').then(m => m.KbnModule)
+    path: 'signup',
+    component: SignupComponent
   }
 ];

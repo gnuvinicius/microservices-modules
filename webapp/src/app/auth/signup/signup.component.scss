@@ -6,10 +6,21 @@
   flex-direction: column;
 
   form {
-    display: flex;
-    width: 400px;
     padding: 30px;
     flex-direction: column;
+
+    .signup-container {
+      display: flex;
+      flex-direction: column;
+
+      .signup-tenanty {
+        width: 350px;
+      }
+
+      .signup-admin {
+        width: 350px;
+      }
+    }
 
     .control {
       display: flex;
@@ -32,7 +43,7 @@
 }
 
 button {
-  width: 100px;
+  // width: 100px;
   background-color: #58b7d3;
   padding: 10px 15px 10px 15px;
   border: none;

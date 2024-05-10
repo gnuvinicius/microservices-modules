@@ -1,13 +1,26 @@
-import { Injectable } from "@angular/core";
-import { CanActivate, Router } from "@angular/router";
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from "@angular/common/http";
+import { Injectable, inject } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  // apiUrl: http://localhost/auth/api/v1
+
+  http = inject(HttpClient);
+  header: HttpHeaders = new HttpHeaders();
+
   TOKEN_KEY = '@garage-dlvr-token';
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    this.header.append('Content-Type', 'application/json');
+    this.header.append('Accept', 'application/json')
+    this.header.append('rejectUnauthorized', 'false')
+    // this.header1.append('Authorization', `Bearer ${this.token}`);
+  }
 
   canActivate() {
     if (!this.isAuthenticated()) {
@@ -19,5 +32,44 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return localStorage.getItem(this.TOKEN_KEY) !== null;
+  }
+
+  login(email: string, password: string): void {
+    const header: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      'rejectUnauthorized': 'false',
+    });
+
+    this.http.post<HttpResponse<any>>(`${environment.apiUrl}/auth/api/v1/login`,
+      { email, password }, { headers : header, observe: 'response' })
+      .subscribe({
+        next: (resp: HttpResponse<any>) => {
+          if (resp.status == 200) {
+            localStorage.setItem(this.TOKEN_KEY, resp.body.access_token);
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err)
+          if (err.status == 403) console.log('falha de autenticação')
+        }
+      }
+    )
+  }
+
+  signup(signup: any): Observable<any> {
+
+    const payload = {
+      nome: signup.titulo,
+      cnpj: signup.cnpj,
+      admin: {
+        nome: signup.nome,
+        email: signup.email,
+        password: signup.password,
+        admin: true
+      }
+    }
+
+    return this.http.post(`${environment.apiUrl}/manager/empresas` , payload)
   }
 }

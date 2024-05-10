@@ -39,7 +39,7 @@ public class ManagerService implements IManagerService {
 		this.mapper = mapper;
 	}
 
-	public UsuarioResponseDto cadastraUsuario(UsuarioRequestDto dto) throws Exception {
+	public UsuarioResponseDto cadastraUsuario(UsuarioRequestDto dto) {
 		try {
 			authGateway.buscaUsuarioPorEmail(dto.getEmail());
 			throw new BusinessException(USUARIO_JA_EXISTE);
@@ -53,9 +53,9 @@ public class ManagerService implements IManagerService {
 		}
 		roleService.addRoleCadastro(usuario);
 		authGateway.salvarUsuario(usuario);
-		if (dto.isSendWelcomeEmail()) {
+		//if (dto.isSendWelcomeEmail()) {
 			// emailService.sendMail(usuario.getEmail(), "", welcomeEmail());
-		}
+		//}
 		return mapper.map(usuario, UsuarioResponseDto.class);
 	}
 
@@ -73,12 +73,12 @@ public class ManagerService implements IManagerService {
 	}
 
 	@Override
-	public List<Tenant> listaTodas() throws Exception {
+	public List<Tenant> listaTodas() {
 		return authGateway.buscarTenants();
 	}
 
 	@Override
-	public Tenant cadastraTenant(TenantRequestDto dto) throws Exception {
+	public Tenant cadastraTenant(TenantRequestDto dto) {
 		try {
 			var tenant = salvaNovaTenant(dto);
 			cadastraUsuarioAdminDefault(dto.getAdmin(), tenant);
@@ -99,6 +99,10 @@ public class ManagerService implements IManagerService {
 
 	private void cadastraUsuarioAdminDefault(UsuarioRequestDto request, Tenant tenant) {
 		try {
+			if (authGateway.buscarUsuarioPorEmail(request.getEmail()) != null) {
+				authGateway.removeTenant(tenant);
+				throw new BusinessException("já existe um usuario com esse e-mail");
+			}
 			var usuario = new Usuario(request, passwordEncoder.encode(request.getPassword()), tenant);
 			roleService.addRoleAdmin(usuario);
 			roleService.addRoleCadastro(usuario);

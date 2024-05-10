@@ -64,11 +64,21 @@ public class KbnResource extends AbstractResource {
         loadJwtRequest();
         Optional<Projeto> optional = projetoRepository.findById(dto.projetoId);
 
-        optional.ifPresent(projeto -> {
-            taskRepository.save(new Task(dto.titulo, request.tenantId(), request.userId(), projeto));
-        });
-
-        return ResponseEntity.ok().build();
+        try {
+            if (optional.isPresent()) {
+                optional.ifPresent(projeto -> {
+                    taskRepository.save(new Task(dto.titulo, request.tenantId(), request.userId(), projeto));
+                    logger.info("task: {} adicionada ao prejeto: {}", dto.titulo, dto.projetoId);
+                });
+                return ResponseEntity.ok().build();
+            } else {
+                logger.warn("projeto com id: '{}' não encontrado", dto.projetoId);
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            logger.error("erro ao criar task: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

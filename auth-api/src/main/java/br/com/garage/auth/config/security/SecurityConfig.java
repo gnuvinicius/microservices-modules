@@ -57,15 +57,16 @@ public class SecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
-				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers("/auth/**").permitAll()
-						.requestMatchers(AUTH_WHITE_LIST).permitAll()
-						.requestMatchers(HttpMethod.POST, "/manager/empresas").permitAll()
-						.requestMatchers("/manager/**").hasRole("ADMIN")
-						.requestMatchers("/cadastro/**").hasAnyRole("ADMIN", "USER")
-						.anyRequest().authenticated())
-				.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
+						.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+						.authorizeHttpRequests(authorize -> authorize
+										.requestMatchers("/auth/**").permitAll()
+										.requestMatchers(AUTH_WHITE_LIST).permitAll()
+										.requestMatchers(HttpMethod.POST, "/manager/empresas").permitAll()
+										.requestMatchers("/manager/**").hasRole("ADMIN")
+										.requestMatchers("/cadastro/**").hasAnyRole("ADMIN", "USER")
+										.anyRequest().authenticated())
+						.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
+
 				.build();
 	}
 
@@ -93,5 +94,6 @@ public class SecurityConfig {
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
 		return bean;
 	}
+
 
 }

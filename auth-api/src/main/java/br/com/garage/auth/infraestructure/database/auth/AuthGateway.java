@@ -31,8 +31,6 @@ public class AuthGateway implements IAuthGateway {
     @Autowired
     private IRoleRepository roleRepository;
 
-
-
     @Override
     public Usuario buscaUsuarioPorEmail(String email) throws UsernameNotFoundException {
         return userRepository.buscaPorEmail(email, Status.ATIVO)
@@ -83,7 +81,12 @@ public class AuthGateway implements IAuthGateway {
     @Override
     public Tenant buscarTenantPorCpfCnpj(String cnpj) {
         Optional<Tenant> opt = tenantRepository.buscarPorCnpj(cnpj);
+        return opt.orElse(null);
+    }
 
-        return opt.isPresent() ? opt.get() : null; 
+    @Override
+    public Usuario buscarUsuarioPorEmail(String email) {
+        Optional<Usuario> opt = userRepository.findByEmail(email);
+        return opt.orElse(null);
     }
 }

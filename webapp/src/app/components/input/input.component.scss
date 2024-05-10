@@ -1,15 +1,16 @@
 .wbp-container {
-  background-color: #353944;
   padding: 10px 15px 10px 15px;
-  width: 300px;
   margin-top: 10px;
+  width: 100%;
   margin-bottom: 10px;
   border-radius: 5px;
+  border: 1px solid #a0a0a0;
 
   input {
+    width: 100%;
     background: transparent;
     border: none;
     outline: none;
-    color: #cccccc;
+    color: #5e5e5e;
   }
 }
