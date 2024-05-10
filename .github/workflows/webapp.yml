@@ -47,7 +47,7 @@ jobs:
         with:
           tokenPrefix: '_{_'
           tokenSuffix: '_}_'
-          files: '["auth-api/k8s/*.yaml"]'
+          files: '["webapp/k8s/*.yaml"]'
         env:
           IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging
           INGRESS_IP: ${{ env.INGRESS_IP }}
