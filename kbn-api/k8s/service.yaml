@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: kbn-service
+spec:
+  selector:
+    app: kbn-api
+  ports:
+    - port: 8081
+      protocol: TCP

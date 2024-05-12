@@ -5,12 +5,12 @@ import java.util.Map;
 
 import lombok.Getter;
 
+@Getter
 public enum EnumStatus {
 
 	INATIVO(0), ATIVO(1);
 
-	@Getter
-	private int value;
+	private final int value;
 
 	EnumStatus(int value) {
 		this.value = value;

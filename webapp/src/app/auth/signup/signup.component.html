@@ -1,0 +1,40 @@
+<div class="wbp-container">
+  <form [formGroup]="signupForm">
+    <div class="signup-container">
+      <div class="signup-tenanty">
+        <p>dados da empresa</p>
+        <div class="wbp-input">
+          <input id="titulo" formControlName="titulo" type="text" placeholder="Titulo" />
+        </div>
+        <div class="wbp-input">
+          <input id="cnpj" formControlName="cnpj" type="text" mask="00.000.000/0000-00" placeholder="CNPJ" />
+        </div>
+      </div>
+      <div class="divisor"></div>
+      <div class="signup-admin">
+        <p>dados do admin</p>
+        <div class="wbp-input">
+          <input id="nome" formControlName="nome" type="text" placeholder="Nome" />
+        </div>
+        <div class="wbp-input">
+          <input id="email" formControlName="email" type="text" placeholder="Email"/>
+        </div>
+        <div class="wbp-input">
+          <input id="password" formControlName="password" type="password" placeholder="Password" />
+        </div>
+      </div>
+    </div>
+
+    <div class="divisor"></div>
+    
+    <div class="control">
+      <a [routerLink]="['/auth']">voltar</a>
+      <button type="submit" (click)="submit()">Cadastrar</button>
+    </div>
+  </form>
+
+  <div class="alert alert-warning" role="alert">
+    A simple warning alert—check it out!
+  </div>
+
+</div>

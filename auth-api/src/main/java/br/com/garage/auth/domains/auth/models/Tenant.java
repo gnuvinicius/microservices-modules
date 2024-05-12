@@ -33,19 +33,18 @@ public class Tenant {
 	@Column(unique = true)
 	private String cnpj;
 
-	public Tenant(String nome, String endereco, String email, String cnpj) throws Exception {
+	public Tenant(String nome, String endereco, String cnpj) throws Exception {
 		this.id = UUID.randomUUID();
 		this.status = Status.INATIVO;
 		this.nome = nome;
 		this.endereco = endereco;
-		this.email = email;
 		this.cnpj = cnpj;
 		this.criadoEm = LocalDateTime.now();
 		valida();
 	}
 
 	public Tenant(TenantRequestDto dto, String endereco) throws Exception {
-		this(dto.getNome(), endereco, dto.getEmail(), dto.getCnpj());
+		this(dto.getNome(), endereco, dto.getCnpj());
 	}
 
 	public void ativaTenant() {
@@ -54,7 +53,7 @@ public class Tenant {
 	}
 
 	public void valida() throws Exception {
-		AssertionConcern.ValideIsNotEmptyOrBlank(email, String.format(NULO_OU_VAZIO, "email"));
+		AssertionConcern.ValideIsNotEmptyOrBlank(nome, String.format(NULO_OU_VAZIO, "nome"));
 		AssertionConcern.ValideIsNotEmptyOrBlank(cnpj, String.format(NULO_OU_VAZIO, "CNPJ"));
 	}
 

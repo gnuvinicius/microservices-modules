@@ -1,0 +1,54 @@
+.wbp-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  form {
+    padding: 30px;
+    flex-direction: column;
+
+    .signup-container {
+      display: flex;
+      flex-direction: column;
+
+      .signup-tenanty {
+        width: 350px;
+      }
+
+      .signup-admin {
+        width: 350px;
+      }
+    }
+
+    .control {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      align-items: flex-start;
+
+      a {
+        color: #5e5e5e;
+        text-decoration: none;
+      }
+    }
+
+    .divisor {
+      border-top: 1px solid #a0a0a0;
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+  }
+}
+
+button {
+  // width: 100px;
+  background-color: #58b7d3;
+  padding: 10px 15px 10px 15px;
+  border: none;
+  border-radius: 5px;
+  color: #f7f7f7;
+  font-weight: 500;
+  outline: none;
+}

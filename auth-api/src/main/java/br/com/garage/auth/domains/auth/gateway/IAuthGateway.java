@@ -21,4 +21,5 @@ public interface IAuthGateway {
     void removeTenant(Tenant tenant);
     Role busarRolePorRoleName(String roleName);
     Tenant buscarTenantPorCpfCnpj(String cnpj);
+    Usuario buscarUsuarioPorEmail(String email);
 }

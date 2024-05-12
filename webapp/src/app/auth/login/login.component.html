@@ -1,0 +1,21 @@
+<div class="wbp-container">
+  <form [formGroup]="loginForm">
+    <div class="wbp-input">
+      <input type="text" formControlName="login" placeholder="Email"/>
+    </div>
+    <div class="wbp-input">
+      <input type="password" formControlName="password" placeholder="Password"/>
+    </div>
+    
+    <div class="divisor"></div>
+    
+    <div class="control">
+      <a [routerLink]="['/signup']">cadastre-se</a>
+      <button type="submit" (click)="submit()">Login</button>
+    </div>
+  </form>
+  
+  <div *ngIf="showAlert" class="alert alert-success" role="alert">
+    A simple success alert—check it out!
+  </div>
+</div>

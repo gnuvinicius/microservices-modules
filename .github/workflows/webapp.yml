@@ -1,0 +1,36 @@
+name: "[HML] web-app project"
+
+on:
+  push:
+    branches: 
+      - "develop"
+  workflow_dispatch: 
+
+jobs:
+  push_to_registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      
+      - name: Build and push Docker image
+        working-directory: ./webapp
+        run: |
+          docker build --tag ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging .
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging
+
+  dev-deploy:
+    needs: push_to_registry
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Docker rm old-container
+        run: |
+          docker rm webapp -f
+
+      - name: Docker run
+        run: |
+          docker run -d -p 9080:80 --name webapp ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging

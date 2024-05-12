@@ -23,43 +23,46 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
-public class AuthTokenFilter extends OncePerRequestFilter  {
+public class AuthTokenFilter extends OncePerRequestFilter {
 
-	@Autowired
-	private ServletContext servletContext;
-	@Autowired
-	private TokenService tokenService;
+    @Autowired
+    private ServletContext servletContext;
+    @Autowired
+    private TokenService tokenService;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
-			throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
+            throws ServletException, IOException {
 
-		var token = getTokenByRequest(request);
+        var token = getTokenByRequest(request);
 
-		if (token != null) {
-			var result = tokenService.validateToken(token);
-			servletContext.setAttribute("requestAtt", new JwtRequestAttributes(result.get("tenantId"), result.get("userId")));
-			
-			var auth = new UsernamePasswordAuthenticationToken(result.get("email"), null, getAuthorities(result.get("role")));
-			SecurityContextHolder.getContext().setAuthentication(auth);
-			filter.doFilter(request, response);
-		}
-	}
+        if (token != null) {
+            var result = tokenService.validateToken(token);
+            servletContext.setAttribute("requestAtt", new JwtRequestAttributes(result.get("tenantId"), result.get("userId")));
 
-	private String getTokenByRequest(HttpServletRequest request) {
-		String token = request.getHeader("Authorization");
-		if (token == null || token.isEmpty() || !token.startsWith("Bearer ")) {
-			return null;
-		}
+            var auth = new UsernamePasswordAuthenticationToken(result.get("email"), null, getAuthorities(result.get("role")));
+            SecurityContextHolder.getContext().setAuthentication(auth);
+            filter.doFilter(request, response);
+        }
+    }
 
-		return token.substring(7, token.length());
-	}
+    private String getTokenByRequest(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        if (token == null || !token.startsWith("Bearer ")) {
+            return null;
+        }
 
-	private Collection<? extends GrantedAuthority> getAuthorities(String roles) {
-		var list = new ArrayList<String>(Arrays.asList(roles.split(",")));
-		
-			return list.stream().map(x -> new SimpleGrantedAuthority(x))
-			.collect(Collectors.toList());
-	}
+        return token.substring(7);
+    }
+
+    private Collection<? extends GrantedAuthority> getAuthorities(String roles) {
+        if (roles != null && !roles.isEmpty() && !roles.isBlank()) {
+            var list = new ArrayList<String>(Arrays.asList(roles.split(",")));
+
+            return list.stream().map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
 
 }
