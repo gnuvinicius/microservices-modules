@@ -16,7 +16,7 @@ jobs:
       - name: Build and push Docker image
         working-directory: ./webapp
         run: |
-          docker build --no-cache --tag ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging .
+          docker build --tag ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging .
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging
 
