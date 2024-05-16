@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "tenant")
+@Table(name = "tb_tenant")
 public class Tenant {
 
 	private static final String NULO_OU_VAZIO = "o campo %s não pode ser nulo ou vazio";

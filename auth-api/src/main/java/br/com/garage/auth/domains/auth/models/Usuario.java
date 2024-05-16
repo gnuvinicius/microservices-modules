@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "usuario")
+@Table(name = "tb_usuario")
 public class Usuario extends AggregateRoot implements UserDetails {
 
 	private static final String NULO_OU_VAZIO = "o campo %s não pode ser nulo ou vazio";
@@ -35,7 +35,7 @@ public class Usuario extends AggregateRoot implements UserDetails {
 	private String password;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "user_role", 
+	@JoinTable(name = "tb_usuario_role",
 		joinColumns = @JoinColumn(name = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();

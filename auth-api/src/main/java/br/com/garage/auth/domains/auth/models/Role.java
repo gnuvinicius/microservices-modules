@@ -14,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "role")
+@Table(name = "tb_role")
 public class Role implements GrantedAuthority {
 
 	@Id
