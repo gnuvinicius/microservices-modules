@@ -5,21 +5,21 @@ import java.util.Map;
 
 import lombok.Getter;
 
-public enum Status {
+@Getter
+public enum EnumStatus {
 
 	INATIVO(0), ATIVO(1);
 
-	@Getter
-	private int value;
+	private final int value;
 
-	Status(int value) {
+	EnumStatus(int value) {
 		this.value = value;
 	}
 
-	public Status valueOf(int value) {
-		Map<Integer, Status> map = new HashMap<>();
+	public EnumStatus valueOf(int value) {
+		Map<Integer, EnumStatus> map = new HashMap<>();
 
-		for (Status status : Status.values()) {
+		for (EnumStatus status : EnumStatus.values()) {
 			map.put(status.value, status);
 		}
 

@@ -4,7 +4,7 @@ import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
 import br.com.garage.auth.domains.auth.models.Role;
 import br.com.garage.auth.domains.auth.models.Tenant;
 import br.com.garage.auth.domains.auth.models.Usuario;
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,18 +22,21 @@ public class AuthGateway implements IAuthGateway {
     private static final String USUARIO_NAO_ENCONTRADO = "Usuário não encontrado";
     private static final String ROLE_NAO_ENCONTRADA = "Role não encontrada";
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
+    private final ITenantRepository tenantRepository;
+    private final IRoleRepository roleRepository;
 
-    @Autowired
-    private ITenantRepository tenantRepository;
-
-    @Autowired
-    private IRoleRepository roleRepository;
+    public AuthGateway(IUserRepository userRepository,
+                       ITenantRepository tenantRepository,
+                       IRoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.tenantRepository = tenantRepository;
+        this.roleRepository = roleRepository;
+    }
 
     @Override
     public Usuario buscaUsuarioPorEmail(String email) throws UsernameNotFoundException {
-        return userRepository.buscaPorEmail(email, Status.ATIVO)
+        return userRepository.buscaPorEmail(email, EnumStatus.ATIVO)
             .orElseThrow(() -> new UsernameNotFoundException(EMAIL_NAO_ENCONTRADO));
     }
 
@@ -54,7 +57,7 @@ public class AuthGateway implements IAuthGateway {
 
     @Override
     public List<Usuario> buscarUsuariosPorTenant(Tenant tenant) {
-        return userRepository.buscaPorTenant(Status.ATIVO, tenant);
+        return userRepository.buscaPorTenant(EnumStatus.ATIVO, tenant);
     }
 
     @Override

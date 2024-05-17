@@ -1,9 +1,8 @@
 package br.com.garage.auth.infraestructure.api.auth.controllers;
 
-import br.com.garage.auth.domains.auth.service.IAuthService;
+import br.com.garage.auth.domains.auth.service.AuthService;
 import br.com.garage.auth.infraestructure.api.auth.dtos.RequestRefreshPasswordDto;
 import br.com.garage.auth.infraestructure.api.auth.dtos.UserLoginRequestDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.annotation.Validated;
@@ -14,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/auth/api/v1")
 public class AuthController {
 
-	@Autowired
-	private IAuthService service;
+	private final AuthService service;
+
+	public AuthController(AuthService service) {
+		this.service = service;
+	}
 
 	@PostMapping(value = "login")
 	public ResponseEntity<?> auth(@RequestBody UserLoginRequestDto dto) throws AuthenticationException {

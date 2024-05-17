@@ -1,6 +1,9 @@
 package br.com.garage.auth.domains.enums;
 
-public enum RoleEnum {
+import lombok.Getter;
+
+@Getter
+public enum EnumRole {
 
 	ROLE_ROOT("ROLE_ROOT"),
 	ROLE_ADMIN("ROLE_ADMIN"),
@@ -8,14 +11,10 @@ public enum RoleEnum {
 	ROLE_DASHBOARD("ROLE_DASHBOARD"),
 	ROLE_CADASTRO("ROLE_CADASTRO");
 
-	private String value;
+	private final String value;
 
-	RoleEnum(String value) {
+	EnumRole(String value) {
 		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
 	}
 
 }

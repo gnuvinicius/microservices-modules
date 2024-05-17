@@ -1,7 +1,7 @@
 package br.com.garage.auth.infraestructure.api.auth.dtos;
 
 import br.com.garage.auth.domains.auth.models.Role;
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import java.util.UUID;
 public class UsuarioResponseDto {
 
 	private UUID id;
-	private Status status;
+	private EnumStatus status;
 	private String nome;
 	private String email;
 	private TenantDto tenant;

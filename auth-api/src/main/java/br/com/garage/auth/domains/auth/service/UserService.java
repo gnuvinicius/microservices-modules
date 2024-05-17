@@ -1,4 +1,4 @@
-package br.com.garage.auth.domains.auth.service.impl;
+package br.com.garage.auth.domains.auth.service;
 
 import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService implements UserDetailsService {
 
-	private IAuthGateway authGateway;
+	private final IAuthGateway authGateway;
 
 	public UserService(IAuthGateway authGateway) {
 		this.authGateway = authGateway;

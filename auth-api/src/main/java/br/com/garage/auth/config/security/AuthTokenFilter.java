@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.infraestructure.database.auth.IUserRepository;
 
 import jakarta.servlet.FilterChain;
@@ -35,7 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter  {
 			var email = tokenService.validateToken(token);
 			
 			if (!email.isEmpty()) {				
-				var optional = userRepository.buscaPorEmail(email, Status.ATIVO);
+				var optional = userRepository.buscaPorEmail(email, EnumStatus.ATIVO);
 				
 				if (optional.isPresent()) {
 					var user = optional.get();

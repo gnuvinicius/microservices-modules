@@ -1,11 +1,8 @@
-package br.com.garage.auth.domains.auth.service.impl;
+package br.com.garage.auth.domains.auth.service;
 
 import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
 import br.com.garage.auth.domains.auth.models.Tenant;
 import br.com.garage.auth.domains.auth.models.Usuario;
-import br.com.garage.auth.domains.auth.service.IAuthService;
-import br.com.garage.auth.domains.auth.service.IManagerService;
-import br.com.garage.auth.domains.auth.service.IRoleService;
 import br.com.garage.auth.exceptions.BusinessException;
 import br.com.garage.auth.infraestructure.api.auth.dtos.TenantRequestDto;
 import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioRequestDto;
@@ -19,18 +16,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ManagerService implements IManagerService {
+public class ManagerService {
 
 	private static final String USUARIO_JA_EXISTE = "Usuário já existe";
 
 	private final IAuthGateway authGateway;
-	private final IRoleService roleService;
+	private final RoleService roleService;
 	private final PasswordEncoder passwordEncoder;
-	private final IAuthService authService;
+	private final AuthService authService;
 	private final ModelMapper mapper;
 
-	public ManagerService(IAuthGateway authGateway, IRoleService roleService,
-			PasswordEncoder passwordEncoder, IAuthService authService, ModelMapper mapper) {
+	public ManagerService(IAuthGateway authGateway, RoleService roleService,
+			PasswordEncoder passwordEncoder, AuthService authService, ModelMapper mapper) {
 
 		this.authGateway = authGateway;
 		this.roleService = roleService;
@@ -59,25 +56,21 @@ public class ManagerService implements IManagerService {
 		return mapper.map(usuario, UsuarioResponseDto.class);
 	}
 
-	@Override
 	public void arquiva(UUID id) {
 		Usuario usuario = authGateway.buscarUsuarioPorId(id);
 		usuario.inativa();
 		authGateway.salvarUsuario(usuario);
 	}
 
-	@Override
 	public List<UsuarioResponseDto> listaTodosUsuarios() {
 		List<Usuario> usuarios = authGateway.buscarUsuariosPorTenant(authService.getCompanyByUserLogged());
 		return usuarios.stream().map(u -> mapper.map(u, UsuarioResponseDto.class)).collect(Collectors.toList());
 	}
 
-	@Override
 	public List<Tenant> listaTodas() {
 		return authGateway.buscarTenants();
 	}
 
-	@Override
 	public Tenant cadastraTenant(TenantRequestDto dto) {
 		try {
 			var tenant = salvaNovaTenant(dto);

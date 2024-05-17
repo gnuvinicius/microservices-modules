@@ -1,7 +1,7 @@
 package br.com.garage.auth.domains.auth.models;
 
 import br.com.garage.auth.domains.AggregateRoot;
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioRequestDto;
 import com.garage.auth.utils.AssertionConcern;
 import jakarta.persistence.*;
@@ -98,7 +98,7 @@ public class Usuario extends AggregateRoot implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return this.getStatus().equals(Status.ATIVO);
+		return this.getStatus().equals(EnumStatus.ATIVO);
 	}
 
 	public void alteraPassword(String passwordEncoded) {
@@ -109,7 +109,7 @@ public class Usuario extends AggregateRoot implements UserDetails {
 	}
 
 	public void ativa() {
-		this.status = Status.ATIVO;
+		this.status = EnumStatus.ATIVO;
 		this.atualizadoEm = LocalDateTime.now();
 	}
 
@@ -118,7 +118,7 @@ public class Usuario extends AggregateRoot implements UserDetails {
 	}
 
 	public void inativa() {
-		this.status = Status.INATIVO;
+		this.status = EnumStatus.INATIVO;
 		this.atualizadoEm = LocalDateTime.now();
 	}
 

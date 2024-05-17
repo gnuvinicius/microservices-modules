@@ -1,6 +1,6 @@
 package br.com.garage.auth.domains.auth.models;
 
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.infraestructure.api.auth.dtos.TenantRequestDto;
 import com.garage.auth.utils.AssertionConcern;
 import jakarta.persistence.Column;
@@ -23,7 +23,7 @@ public class Tenant {
 
 	@Id
 	private UUID id;
-	private Status status;
+	private EnumStatus status;
 	private String nome;
 	private String endereco;
 	private String email;
@@ -35,7 +35,7 @@ public class Tenant {
 
 	public Tenant(String nome, String endereco, String cnpj) throws Exception {
 		this.id = UUID.randomUUID();
-		this.status = Status.INATIVO;
+		this.status = EnumStatus.INATIVO;
 		this.nome = nome;
 		this.endereco = endereco;
 		this.cnpj = cnpj;
@@ -48,7 +48,7 @@ public class Tenant {
 	}
 
 	public void ativaTenant() {
-		this.status = Status.ATIVO;
+		this.status = EnumStatus.ATIVO;
 		this.atualizadoEm = LocalDateTime.now();
 	}
 
