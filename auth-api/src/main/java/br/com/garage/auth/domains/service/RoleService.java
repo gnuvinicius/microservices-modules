@@ -1,8 +1,8 @@
-package br.com.garage.auth.domains.auth.service;
+package br.com.garage.auth.domains.service;
 
-import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
-import br.com.garage.auth.domains.auth.models.Role;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.gateway.IAuthGateway;
+import br.com.garage.auth.domains.models.Role;
+import br.com.garage.auth.domains.models.Usuario;
 import org.springframework.stereotype.Service;
 
 @Service

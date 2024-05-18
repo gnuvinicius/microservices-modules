@@ -1,8 +1,8 @@
-package br.com.garage.auth.domains.auth.gateway;
+package br.com.garage.auth.domains.gateway;
 
-import br.com.garage.auth.domains.auth.models.Role;
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.models.Role;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.models.Usuario;
 import br.com.garage.auth.exceptions.NotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 

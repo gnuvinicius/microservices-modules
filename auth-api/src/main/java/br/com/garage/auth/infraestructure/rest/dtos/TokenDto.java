@@ -1,4 +1,4 @@
-package br.com.garage.auth.infraestructure.api.auth.dtos;
+package br.com.garage.auth.infraestructure.rest.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,12 +1,11 @@
-package br.com.garage.auth.infraestructure.database.auth;
+package br.com.garage.auth.infraestructure.database;
 
-import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
-import br.com.garage.auth.domains.auth.models.Role;
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.gateway.IAuthGateway;
+import br.com.garage.auth.domains.models.Role;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.models.Usuario;
 import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.exceptions.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 

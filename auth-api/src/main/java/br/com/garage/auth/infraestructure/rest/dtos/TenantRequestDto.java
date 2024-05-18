@@ -1,6 +1,6 @@
-package br.com.garage.auth.infraestructure.api.auth.dtos;
+package br.com.garage.auth.infraestructure.rest.dtos;
 
-import br.com.garage.auth.domains.auth.models.Tenant;
+import br.com.garage.auth.domains.models.Tenant;
 import lombok.Getter;
 
 @Getter

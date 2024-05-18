@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.garage.auth.domains.enums.EnumStatus;
-import br.com.garage.auth.infraestructure.database.auth.IUserRepository;
+import br.com.garage.auth.infraestructure.database.IUserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

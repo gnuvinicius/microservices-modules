@@ -1,7 +1,7 @@
-package br.com.garage.auth.infraestructure.database.auth;
+package br.com.garage.auth.infraestructure.database;
 
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.models.Usuario;
 import br.com.garage.auth.domains.enums.EnumStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
-package br.com.garage.auth.domains.auth.models;
+package br.com.garage.auth.domains.models;
 
 import br.com.garage.auth.domains.enums.EnumStatus;
-import br.com.garage.auth.infraestructure.api.auth.dtos.TenantRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.TenantRequestDto;
 import com.garage.auth.utils.AssertionConcern;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

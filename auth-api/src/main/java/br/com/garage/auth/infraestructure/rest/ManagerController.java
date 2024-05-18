@@ -1,10 +1,10 @@
-package br.com.garage.auth.infraestructure.api.auth.controllers;
+package br.com.garage.auth.infraestructure.rest;
 
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.service.ManagerService;
-import br.com.garage.auth.infraestructure.api.auth.dtos.TenantRequestDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioRequestDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioResponseDto;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.service.ManagerService;
+import br.com.garage.auth.infraestructure.rest.dtos.TenantRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UsuarioRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UsuarioResponseDto;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

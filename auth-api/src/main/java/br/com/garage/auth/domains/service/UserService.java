@@ -1,6 +1,6 @@
-package br.com.garage.auth.domains.auth.service;
+package br.com.garage.auth.domains.service;
 
-import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
+import br.com.garage.auth.domains.gateway.IAuthGateway;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

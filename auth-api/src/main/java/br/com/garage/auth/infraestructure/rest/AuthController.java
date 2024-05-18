@@ -1,8 +1,8 @@
-package br.com.garage.auth.infraestructure.api.auth.controllers;
+package br.com.garage.auth.infraestructure.rest;
 
-import br.com.garage.auth.domains.auth.service.AuthService;
-import br.com.garage.auth.infraestructure.api.auth.dtos.RequestRefreshPasswordDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UserLoginRequestDto;
+import br.com.garage.auth.domains.service.AuthService;
+import br.com.garage.auth.infraestructure.rest.dtos.RequestRefreshPasswordDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UserLoginRequestDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.annotation.Validated;

@@ -28,3 +28,9 @@ spring:
     - public
     locations:
     - classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /auth/api/v1/swagger
+

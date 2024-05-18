@@ -1,4 +1,4 @@
-package br.com.garage.auth.domains.auth.models;
+package br.com.garage.auth.domains.models;
 
 import java.util.UUID;
 

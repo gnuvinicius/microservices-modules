@@ -1,14 +1,15 @@
-package br.com.garage.auth.domains.auth.service;
+package br.com.garage.auth.domains.service;
 
 import br.com.garage.auth.config.security.TokenService;
-import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.gateway.IAuthGateway;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.models.Usuario;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.exceptions.BusinessException;
 import br.com.garage.auth.exceptions.NotFoundException;
-import br.com.garage.auth.infraestructure.api.auth.dtos.RequestRefreshPasswordDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.TokenDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UserLoginRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.RequestRefreshPasswordDto;
+import br.com.garage.auth.infraestructure.rest.dtos.TokenDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UserLoginRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -52,6 +53,10 @@ public class AuthService {
         Usuario usuario = authGateway.buscaUsuarioPorEmail(dto.email());
         TokenDto tokenDto = new TokenDto(token, "Bearer", null);
         if (usuario.getTenant() != null) {
+            if (usuario.getTenant().getStatus().equals(EnumStatus.INATIVO)) {
+                throw new BusinessException("Tenant está inativa!");
+            }
+
             tokenDto.tenantName = usuario.getTenant().getNome();
         }
         usuario.atualizaDataUltimoLogin();

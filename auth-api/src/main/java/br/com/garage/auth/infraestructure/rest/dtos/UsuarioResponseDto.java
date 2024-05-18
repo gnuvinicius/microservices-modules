@@ -1,6 +1,6 @@
-package br.com.garage.auth.infraestructure.api.auth.dtos;
+package br.com.garage.auth.infraestructure.rest.dtos;
 
-import br.com.garage.auth.domains.auth.models.Role;
+import br.com.garage.auth.domains.models.Role;
 import br.com.garage.auth.domains.enums.EnumStatus;
 import lombok.Getter;
 import lombok.Setter;

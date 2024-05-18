@@ -1,12 +1,12 @@
-package br.com.garage.auth.domains.auth.service;
+package br.com.garage.auth.domains.service;
 
-import br.com.garage.auth.domains.auth.gateway.IAuthGateway;
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.gateway.IAuthGateway;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.models.Usuario;
 import br.com.garage.auth.exceptions.BusinessException;
-import br.com.garage.auth.infraestructure.api.auth.dtos.TenantRequestDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioRequestDto;
-import br.com.garage.auth.infraestructure.api.auth.dtos.UsuarioResponseDto;
+import br.com.garage.auth.infraestructure.rest.dtos.TenantRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UsuarioRequestDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UsuarioResponseDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package br.com.garage.auth.domains;
 
-import br.com.garage.auth.domains.auth.models.Tenant;
+import br.com.garage.auth.domains.models.Tenant;
 import br.com.garage.auth.domains.enums.EnumStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
