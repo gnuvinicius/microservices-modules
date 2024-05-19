@@ -1,20 +1,17 @@
 package br.com.garage.auth.config.security;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.garage.auth.domains.enums.EnumStatus;
+import br.com.garage.auth.infraestructure.database.IUserRepository;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.garage.auth.domains.enums.EnumStatus;
-import br.com.garage.auth.infraestructure.database.IUserRepository;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Service
 public class AuthTokenFilter extends OncePerRequestFilter  {
