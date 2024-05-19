@@ -6,8 +6,7 @@ import br.com.garage.auth.infraestructure.rest.dtos.TenantRequestDto;
 import br.com.garage.auth.infraestructure.rest.dtos.UsuarioRequestDto;
 import br.com.garage.auth.infraestructure.rest.dtos.UsuarioResponseDto;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +16,8 @@ import java.util.UUID;
 
 @RestController()
 @RequestMapping("/auth/api/v1/manager")
+@Log4j2
 public class ManagerController {
-
-	private static final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	private final ManagerService service;
 
@@ -52,7 +50,7 @@ public class ManagerController {
 
 	@PostMapping("/empresas")
 	public ResponseEntity<?> cadastra(@RequestBody TenantRequestDto request) throws Exception {
-		logger.info("cadastrando empresa: {}", request.getNome());
+		log.info("cadastrando empresa: {}", request.getNome());
 		Tenant tenant = service.cadastraTenant(request);
 
 		URI uri = new URI(tenant.getId().toString());
