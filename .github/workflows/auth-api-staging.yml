@@ -90,6 +90,6 @@ jobs:
       
       - name: Deploy in Development Environment
         run: |
-          kubectl apply -f auth-api/k8s/deployment.yaml
-          kubectl apply -f auth-api/k8s/service.yaml
-          kubectl apply -f auth-api/k8s/ingress.yaml
+          kubectl rollout -f auth-api/k8s/deployment.yaml
+          kubectl rollout -f auth-api/k8s/service.yaml
+          kubectl rollout -f auth-api/k8s/ingress.yaml
