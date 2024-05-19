@@ -41,3 +41,10 @@ export PATH=$PATH:$JAVA_HOME/bin:$M2_HOME/bin
 ```bash
 foo@bar:~$ mvn spring-boot:run
 ```
+
+### desativar IPv6 da VM que está rodando o github self-runner
+```bash
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.lo.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+```
