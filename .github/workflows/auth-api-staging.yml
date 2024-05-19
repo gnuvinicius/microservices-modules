@@ -90,6 +90,7 @@ jobs:
       
       - name: Deploy in Development Environment
         run: |
+          kubectl delete -f auth-api/k8s/deployment.yaml --force
           kubectl apply -f auth-api/k8s/deployment.yaml
           kubectl apply -f auth-api/k8s/service.yaml
           kubectl apply -f auth-api/k8s/ingress.yaml

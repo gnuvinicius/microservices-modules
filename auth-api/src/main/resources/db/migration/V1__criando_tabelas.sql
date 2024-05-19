@@ -1,7 +1,4 @@
--- public.tenant definition
--- Drop table
--- DROP TABLE public.tenant;
-CREATE TABLE public.tenant (
+CREATE TABLE public.tb_tenant (
     id uuid NOT NULL,
     atualizado_em timestamp(6) NULL,
     cnpj varchar(255) NULL,
@@ -20,10 +17,7 @@ CREATE TABLE public.tenant (
     CONSTRAINT uk_k1oumevyg0yooai1tgkjlvare UNIQUE (cnpj)
 );
 
--- public.usuario definition
--- Drop table
--- DROP TABLE public.usuario;
-CREATE TABLE public.usuario (
+CREATE TABLE public.tb_usuario (
     id uuid NOT NULL,
     atualizado_em timestamp(6) NULL,
     criado_em timestamp(6) NULL,
@@ -46,44 +40,38 @@ CREATE TABLE public.usuario (
     )
 );
 
--- public.usuario foreign keys
 ALTER TABLE
-    public.usuario
+    public.tb_usuario
 ADD
-    CONSTRAINT fka10giac3ef9545ra7eyhmn4q1 FOREIGN KEY (tenant_id) REFERENCES public.tenant(id);
+    CONSTRAINT fka10giac3ef9545ra7eyhmn4q1 FOREIGN KEY (tenant_id) REFERENCES public.tb_tenant(id);
 
--- public."role" definition
--- Drop table
--- DROP TABLE public."role";
-CREATE TABLE public."role" (
+CREATE TABLE public.tb_role (
     role_id uuid NOT NULL,
     role_name varchar(255) NOT NULL,
     CONSTRAINT role_pkey PRIMARY KEY (role_id),
     CONSTRAINT uk_iubw515ff0ugtm28p8g3myt0h UNIQUE (role_name)
 );
 
--- public.user_role definition
--- Drop table
--- DROP TABLE public.user_role;
-CREATE TABLE public.user_role (
+CREATE TABLE public.tb_usuario_role (
     user_id uuid NOT NULL,
     role_id uuid NOT NULL,
     CONSTRAINT user_role_pkey PRIMARY KEY (user_id, role_id)
 );
 
--- public.user_role foreign keys
 ALTER TABLE
-    public.user_role
+    public.tb_usuario_role
 ADD
-    CONSTRAINT fka68196081fvovjhkek5m97n3y FOREIGN KEY (role_id) REFERENCES public."role"(role_id);
+    CONSTRAINT fka68196081fvovjhkek5m97n3y
+    FOREIGN KEY (role_id) REFERENCES public.tb_role(role_id);
 
 ALTER TABLE
-    public.user_role
+    public.tb_usuario_role
 ADD
-    CONSTRAINT fkn3vbvm68n43dvr2tv0xljh018 FOREIGN KEY (user_id) REFERENCES public.usuario(id);
+    CONSTRAINT fkn3vbvm68n43dvr2tv0xljh018
+    FOREIGN KEY (user_id) REFERENCES public.tb_usuario(id);
 
 INSERT INTO
-    "role" (role_id, role_name)
+    tb_role (role_id, role_name)
 VALUES
     (
         '0d39a2f4-07be-4d72-ac7a-9c6f3b6846ce',
@@ -91,7 +79,7 @@ VALUES
     );
 
 INSERT INTO
-    "role" (role_id, role_name)
+    tb_role (role_id, role_name)
 VALUES
     (
         '64e4b21e-166c-4068-b1ea-4fc1f9d3c2c7',
@@ -99,7 +87,7 @@ VALUES
     );
 
 INSERT INTO
-    "role" (role_id, role_name)
+    tb_role (role_id, role_name)
 VALUES
     (
         '7de7ec5c-74ad-4dcd-a4ba-7b72b3d8c83f',

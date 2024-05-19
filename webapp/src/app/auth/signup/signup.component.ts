@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { InputComponent } from '../../components/input/input.component';
 import { AuthService } from '../auth.service';
 import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
@@ -9,7 +8,6 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
   selector: 'app-signup',
   standalone: true,
   imports: [
-    InputComponent,
     NgxMaskDirective, 
     NgxMaskPipe, 
     RouterModule,
@@ -42,13 +40,10 @@ export class SignupComponent {
       password: this.signupForm.controls['password'].value
     }
     this.authService.signup(signup).subscribe(resp => {
-      console.log(resp)
-      if (resp.status == 200) {
-        this.router.navigate(['/auth'])
-      } else {
-        console.log(resp)
-      }
-    })
+      console.log(resp);
+      if (resp.status == 201) this.router.navigate(['/auth'])
+    } 
+    );
 
   }
 }

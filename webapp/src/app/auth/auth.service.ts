@@ -9,17 +9,16 @@ import { environment } from "../../environments/environment";
 })
 export class AuthService {
 
-  // apiUrl: http://localhost/auth/api/v1
-
   http = inject(HttpClient);
   header: HttpHeaders = new HttpHeaders();
 
   TOKEN_KEY = '@garage-dlvr-token';
   constructor(private router: Router) {
-    this.header.append('Content-Type', 'application/json');
-    this.header.append('Accept', 'application/json')
-    this.header.append('rejectUnauthorized', 'false')
-    // this.header1.append('Authorization', `Bearer ${this.token}`);
+    this.header = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+      // 'rejectUnauthorized': 'false',
+    });  
   }
 
   canActivate() {
@@ -35,24 +34,15 @@ export class AuthService {
   }
 
   login(email: string, password: string): void {
-    const header: HttpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-      'rejectUnauthorized': 'false',
-    });
-
     this.http.post<HttpResponse<any>>(`${environment.apiUrl}/auth/api/v1/login`,
-      { email, password }, { headers : header, observe: 'response' })
+      { email, password }, { headers : this.header, observe: 'response' })
       .subscribe({
         next: (resp: HttpResponse<any>) => {
           if (resp.status == 200) {
             localStorage.setItem(this.TOKEN_KEY, resp.body.access_token);
           }
         },
-        error: (err: HttpErrorResponse) => {
-          console.log(err)
-          if (err.status == 403) console.log('falha de autenticação')
-        }
+        error: (err: HttpErrorResponse) => console.log(err)
       }
     )
   }
@@ -70,6 +60,7 @@ export class AuthService {
       }
     }
 
-    return this.http.post(`${environment.apiUrl}/manager/empresas` , payload)
+    return this.http.post(`${environment.apiUrl}/auth/api/v1/manager/empresas`, payload, 
+      { headers : this.header, observe: 'response' })
   }
 }

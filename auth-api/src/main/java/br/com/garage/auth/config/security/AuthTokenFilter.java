@@ -1,31 +1,31 @@
 package br.com.garage.auth.config.security;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.garage.auth.domains.enums.EnumStatus;
+import br.com.garage.auth.infraestructure.database.IUserRepository;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import br.com.garage.auth.domains.enums.Status;
-import br.com.garage.auth.infraestructure.database.auth.IUserRepository;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Service
 public class AuthTokenFilter extends OncePerRequestFilter  {
 
-	@Autowired
-	private TokenService tokenService;
+	private final TokenService tokenService;
 
-	@Autowired
-	private IUserRepository userRepository;
+	private final IUserRepository userRepository;
 
-	@Override
+    public AuthTokenFilter(TokenService tokenService, IUserRepository userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
+
+    @Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
 			throws ServletException, IOException {
 
@@ -35,7 +35,7 @@ public class AuthTokenFilter extends OncePerRequestFilter  {
 			var email = tokenService.validateToken(token);
 			
 			if (!email.isEmpty()) {				
-				var optional = userRepository.buscaPorEmail(email, Status.ATIVO);
+				var optional = userRepository.buscaPorEmail(email, EnumStatus.ATIVO);
 				
 				if (optional.isPresent()) {
 					var user = optional.get();
@@ -54,7 +54,7 @@ public class AuthTokenFilter extends OncePerRequestFilter  {
 			return null;
 		}
 
-		return token.substring(7, token.length());
+		return token.substring(7);
 	}
 
 }

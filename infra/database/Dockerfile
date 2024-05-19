@@ -1,1 +1,0 @@
-FROM postgres:15.5-alpine3.19

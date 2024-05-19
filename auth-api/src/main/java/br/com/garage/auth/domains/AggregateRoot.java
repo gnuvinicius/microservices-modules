@@ -1,7 +1,7 @@
 package br.com.garage.auth.domains;
 
-import br.com.garage.auth.domains.auth.models.Tenant;
-import br.com.garage.auth.domains.enums.Status;
+import br.com.garage.auth.domains.models.Tenant;
+import br.com.garage.auth.domains.enums.EnumStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -17,16 +17,16 @@ public abstract class AggregateRoot {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tenant_id", nullable = false)
-	protected Tenant tenant;
+	public Tenant tenant;
 
 	protected LocalDateTime criadoEm;
 	protected LocalDateTime atualizadoEm;
-	protected Status status;
+	protected EnumStatus status;
 
 	protected AggregateRoot() {
 		this.id = UUID.randomUUID();
 		this.criadoEm = LocalDateTime.now();
 		this.atualizadoEm = LocalDateTime.now();
-		this.status = Status.ATIVO;
+		this.status = EnumStatus.ATIVO;
 	}
 }

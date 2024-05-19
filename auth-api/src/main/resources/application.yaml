@@ -3,7 +3,6 @@ server:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86400000
 
 spring:
   application:
@@ -28,3 +27,11 @@ spring:
     - public
     locations:
     - classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /auth/api/v1/swagger
+  api-docs:
+    path: /auth/v3/api-docs/swagger-config
+

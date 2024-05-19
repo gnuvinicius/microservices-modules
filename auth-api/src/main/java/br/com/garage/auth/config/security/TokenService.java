@@ -12,13 +12,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import br.com.garage.auth.domains.auth.models.Usuario;
+import br.com.garage.auth.domains.models.Usuario;
 
 @Service
 public class TokenService {
-
-	@Value("${jwt.expiration}")
-	private String expiration;
 
 	@Value("${jwt.secret}")
 	private String secret;

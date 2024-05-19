@@ -1,12 +1,3 @@
-# FROM maven:3.9.4-amazoncorretto-17-debian AS build-env
-
-# ARG APP_NAME
-# ARG USER_HOME_DIR="/root"
-# ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
-
-# WORKDIR /app
-# COPY ./target/${APP_NAME}.jar /app/${APP_NAME}.jar
-
 FROM eclipse-temurin:17-jre-alpine
 
 ARG APP_NAME
