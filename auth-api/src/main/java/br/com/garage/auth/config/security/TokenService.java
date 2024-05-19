@@ -18,7 +18,7 @@ import br.com.garage.auth.domains.models.Usuario;
 public class TokenService {
 
 	@Value("${jwt.secret}")
-	public String secret;
+	private String secret;
 
 	public String buildToken(Authentication authenticate) {
 
