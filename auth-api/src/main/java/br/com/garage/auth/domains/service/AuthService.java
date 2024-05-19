@@ -47,10 +47,10 @@ public class AuthService {
 
     public TokenDto auth(UserLoginRequestDto dto) {
 
-        var login = new UsernamePasswordAuthenticationToken(dto.email(), dto.password());
+        var login = new UsernamePasswordAuthenticationToken(dto.email, dto.password);
         var authenticate = authenticationManager.authenticate(login);
         String token = tokenService.buildToken(authenticate);
-        Usuario usuario = authGateway.buscaUsuarioPorEmail(dto.email());
+        Usuario usuario = authGateway.buscaUsuarioPorEmail(dto.email);
         TokenDto tokenDto = new TokenDto(token, "Bearer", null);
         if (usuario.getTenant() != null) {
             if (usuario.getTenant().getStatus().equals(EnumStatus.INATIVO)) {
@@ -65,14 +65,14 @@ public class AuthService {
     }
 
     public void updatePasswordByRefreshToken(RequestRefreshPasswordDto dto) throws BusinessException {
-        var entity = authGateway.buscaUsuarioPorEmail(dto.email());
+        var entity = authGateway.buscaUsuarioPorEmail(dto.getEmail());
 
-        if (!entity.getTokenRefreshPassword().equals(dto.tokenRefreshPassword())
+        if (!entity.getTokenRefreshPassword().equals(dto.getTokenRefreshPassword())
                 || !entity.isTokenRefreshPasswordValid()) {
             throw new BusinessException(TOKEN_INVALIDO);
         }
-        validPasswordPolicies(dto.newPassword());
-        entity.alteraPassword(passwordEncoder.encode(dto.newPassword()));
+        validPasswordPolicies(dto.getNewPassword());
+        entity.alteraPassword(passwordEncoder.encode(dto.getNewPassword()));
         authGateway.salvarUsuario(entity);
     }
 

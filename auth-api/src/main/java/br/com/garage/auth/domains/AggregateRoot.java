@@ -17,7 +17,7 @@ public abstract class AggregateRoot {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tenant_id", nullable = false)
-	protected Tenant tenant;
+	public Tenant tenant;
 
 	protected LocalDateTime criadoEm;
 	protected LocalDateTime atualizadoEm;

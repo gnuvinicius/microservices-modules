@@ -1,4 +1,10 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
-public record RequestRefreshPasswordDto(String email, String tokenRefreshPassword, String newPassword) {
+import lombok.Data;
+
+@Data
+public class RequestRefreshPasswordDto {
+    private String email;
+    private String tokenRefreshPassword;
+    private String newPassword;
 }

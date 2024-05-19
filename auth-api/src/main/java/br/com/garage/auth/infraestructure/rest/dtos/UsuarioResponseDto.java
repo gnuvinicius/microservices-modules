@@ -2,6 +2,7 @@ package br.com.garage.auth.infraestructure.rest.dtos;
 
 import br.com.garage.auth.domains.models.Role;
 import br.com.garage.auth.domains.enums.EnumStatus;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +11,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 public class UsuarioResponseDto {
 
 	private UUID id;

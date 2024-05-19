@@ -1,8 +1,9 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
-
+@Data
 public class TokenDto {
 
 	public @JsonProperty(value = "access_token") String accessToken;

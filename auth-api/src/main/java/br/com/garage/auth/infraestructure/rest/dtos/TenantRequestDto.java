@@ -1,8 +1,10 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
 import br.com.garage.auth.domains.models.Tenant;
+import lombok.Data;
 import lombok.Getter;
 
+@Data
 @Getter
 public class TenantRequestDto {
 

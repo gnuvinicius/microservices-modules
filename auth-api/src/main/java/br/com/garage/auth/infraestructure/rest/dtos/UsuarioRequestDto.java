@@ -1,8 +1,9 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
+@Data
 public class UsuarioRequestDto {
 
 	private String nome;

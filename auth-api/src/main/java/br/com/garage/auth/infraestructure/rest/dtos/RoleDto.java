@@ -1,4 +1,9 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
-public record RoleDto(String id, String roleName) {
+import lombok.Data;
+
+@Data
+public class RoleDto {
+    private String id;
+    private String roleName;
 }
