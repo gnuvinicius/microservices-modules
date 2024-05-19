@@ -1,10 +1,8 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
-import br.com.garage.auth.domains.models.Role;
 import br.com.garage.auth.domains.enums.EnumStatus;
+import br.com.garage.auth.domains.models.Role;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;

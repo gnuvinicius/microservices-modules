@@ -2,7 +2,6 @@ package br.com.garage.auth.infraestructure.rest.dtos;
 
 import br.com.garage.auth.domains.enums.EnumStatus;
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 

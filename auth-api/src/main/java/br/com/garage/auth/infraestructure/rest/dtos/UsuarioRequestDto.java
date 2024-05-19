@@ -1,7 +1,6 @@
 package br.com.garage.auth.infraestructure.rest.dtos;
 
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class UsuarioRequestDto {

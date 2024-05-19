@@ -28,7 +28,7 @@ public class ManagerController {
 	}
 
 	@GetMapping("/usuarios")
-	public ResponseEntity<?> findAllUsersByCompany() throws Exception {
+	public ResponseEntity<?> findAllUsersByCompany() {
 		return ResponseEntity.ok(service.listaTodosUsuarios());
 	}
 
@@ -40,13 +40,13 @@ public class ManagerController {
 	}
 
 	@DeleteMapping("/usuario")
-	public ResponseEntity<?> arquiva(@RequestParam(name = "id") UUID id) throws Exception {
+	public ResponseEntity<?> arquiva(@RequestParam(name = "id") UUID id) {
 		service.arquiva(id);
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/empresas")
-	public ResponseEntity<?> listaTodas() throws Exception {
+	public ResponseEntity<?> listaTodas() {
 		return ResponseEntity.ok(service.listaTodas());
 	}
 

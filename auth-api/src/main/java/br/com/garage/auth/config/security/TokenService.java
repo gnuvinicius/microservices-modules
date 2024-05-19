@@ -17,9 +17,6 @@ import br.com.garage.auth.domains.models.Usuario;
 @Service
 public class TokenService {
 
-	@Value("${jwt.expiration}")
-	private String expiration;
-
 	@Value("${jwt.secret}")
 	private String secret;
 

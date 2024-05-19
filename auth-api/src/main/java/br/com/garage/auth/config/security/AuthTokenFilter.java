@@ -19,13 +19,16 @@ import jakarta.servlet.http.HttpServletResponse;
 @Service
 public class AuthTokenFilter extends OncePerRequestFilter  {
 
-	@Autowired
-	private TokenService tokenService;
+	private final TokenService tokenService;
 
-	@Autowired
-	private IUserRepository userRepository;
+	private final IUserRepository userRepository;
 
-	@Override
+    public AuthTokenFilter(TokenService tokenService, IUserRepository userRepository) {
+        this.tokenService = tokenService;
+        this.userRepository = userRepository;
+    }
+
+    @Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filter)
 			throws ServletException, IOException {
 
@@ -54,7 +57,7 @@ public class AuthTokenFilter extends OncePerRequestFilter  {
 			return null;
 		}
 
-		return token.substring(7, token.length());
+		return token.substring(7);
 	}
 
 }

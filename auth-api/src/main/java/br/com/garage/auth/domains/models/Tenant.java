@@ -52,7 +52,7 @@ public class Tenant {
 		this.atualizadoEm = LocalDateTime.now();
 	}
 
-	public void valida() throws Exception {
+	public void valida() {
 		AssertionConcern.ValideIsNotEmptyOrBlank(nome, String.format(NULO_OU_VAZIO, "nome"));
 		AssertionConcern.ValideIsNotEmptyOrBlank(cnpj, String.format(NULO_OU_VAZIO, "CNPJ"));
 	}

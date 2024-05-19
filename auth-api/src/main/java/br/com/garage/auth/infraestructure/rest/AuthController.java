@@ -1,6 +1,5 @@
 package br.com.garage.auth.infraestructure.rest;
 
-import br.com.garage.auth.config.ResponseErrorBody;
 import br.com.garage.auth.domains.service.AuthService;
 import br.com.garage.auth.infraestructure.rest.dtos.RequestRefreshPasswordDto;
 import br.com.garage.auth.infraestructure.rest.dtos.TokenDto;
