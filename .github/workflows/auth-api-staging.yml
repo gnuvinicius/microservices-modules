@@ -97,7 +97,6 @@ jobs:
           kubectl apply -f auth-api/k8s/ingress.yaml
 
   docker-deploy:
-    if: false
     needs: push_to_registry
     runs-on: vps-d
     steps:
