@@ -109,4 +109,4 @@ jobs:
 
       - name: Docker run
         run: |
-          docker run -d -p 8080:8080 --name auth-d ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging
+          docker run -d -p 8080:8080 --pull=always --name auth-d ${{ secrets.DOCKERHUB_USERNAME }}/auth-api:staging
