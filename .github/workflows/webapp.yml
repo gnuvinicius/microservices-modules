@@ -20,9 +20,9 @@ jobs:
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/webapp:staging
 
-  dev-deploy:
+  docker-deploy:
     needs: push_to_registry
-    runs-on: self-hosted
+    runs-on: vps-d
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4

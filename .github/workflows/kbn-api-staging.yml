@@ -56,7 +56,8 @@ jobs:
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/kbn-api:staging
 
-  dev-deploy:
+  k8s-deploy:
+    if: false
     needs: push_to_registry
     runs-on: self-hosted
     steps:

@@ -3,7 +3,7 @@ package br.com.garage.auth.domains.models;
 import br.com.garage.auth.domains.AggregateRoot;
 import br.com.garage.auth.domains.enums.EnumStatus;
 import br.com.garage.auth.infraestructure.rest.dtos.UsuarioRequestDto;
-import com.garage.auth.utils.AssertionConcern;
+import br.com.garage.auth.utils.AssertionConcern;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
