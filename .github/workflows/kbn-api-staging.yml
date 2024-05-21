@@ -94,3 +94,18 @@ jobs:
           kubectl apply -f kbn-api/k8s/deployment.yaml
           kubectl apply -f kbn-api/k8s/service.yaml
           kubectl apply -f kbn-api/k8s/ingress.yaml
+
+  docker-deploy:
+    needs: push_to_registry
+    runs-on: vps-d
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Docker rm old-container
+        run: |
+          docker rm kbn-d -f
+
+      - name: Docker run
+        run: |
+          docker run -d -p 8081:8081 --pull=always --name kbn-d ${{ secrets.DOCKERHUB_USERNAME }}/kbn-api:staging
