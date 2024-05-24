@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.garage.kbn.dto.ProjetoDTO;
@@ -36,7 +36,7 @@ public class KbnResource extends AbstractResource {
     private TaskRepository taskRepository;
 
     @GetMapping("/projetos/{tenantId}")
-    public ResponseEntity<?> getAll(@RequestParam String tenantId) {
+    public ResponseEntity<?> getAll(@PathVariable String tenantId) {
         try {
             return ResponseEntity.ok(projetoRepository.findByTenantId(UUID.fromString(tenantId)));
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class KbnResource extends AbstractResource {
 
     @PostMapping("/projetos/{tenantId}/{userId}")
     public ResponseEntity<?> cadastraProjeto(
-            @RequestBody ProjetoDTO dto, @RequestParam String tenantId, @RequestParam String userId)
+            @RequestBody ProjetoDTO dto, @PathVariable String tenantId, @PathVariable String userId)
             throws URISyntaxException {
         logger.info("iniciando cadastro novo projeto");
 
@@ -63,7 +63,7 @@ public class KbnResource extends AbstractResource {
     }
 
     @PostMapping("/tasks/{tenantId}/{userId}")
-    public ResponseEntity<?> cadastraTask(@RequestBody TaskDTO dto, @RequestParam String tenantId, @RequestParam String userId) {
+    public ResponseEntity<?> cadastraTask(@RequestBody TaskDTO dto, @PathVariable String tenantId, @PathVariable String userId) {
         loadJwtRequest();
         Optional<Projeto> optional = projetoRepository.findById(dto.projetoId);
 

@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.5</version>
+        <version>3.3.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <groupId>br.com.garage</groupId>
     <artifactId>auth-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>staging</version>
     <name>library</name>
     <description>Demo project for Spring Boot</description>
 
@@ -52,7 +52,8 @@
         </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-core</artifactId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <version>10.13.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

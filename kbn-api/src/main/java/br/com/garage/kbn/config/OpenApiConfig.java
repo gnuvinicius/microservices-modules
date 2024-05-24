@@ -9,10 +9,10 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
-info = @Info(description = "OpenApi documentation para o webservice Auth-api",
-		title = "Auth-api - documentação", version = "1.0"),
+info = @Info(description = "OpenApi documentation para o webservice kbn-api",
+		title = "kbn-api - documentação", version = "1.0"),
 servers = {
-		@Server(description = "Developer", url = "http://localhost:8080"),
+		@Server(description = "Developer", url = "http://localhost:8081"),
 		@Server(description = "Staginig", url = "http://192.168.0.237") },
 security = { @SecurityRequirement(name = "bearerAuth") })
 @SecurityScheme(name = "bearerAuth", description = "JWT auth description", scheme = "bearer", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", in = SecuritySchemeIn.HEADER)
