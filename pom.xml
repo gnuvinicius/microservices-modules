@@ -12,7 +12,4 @@
         <module>auth-api</module>
         <module>kbn-api</module>
     </modules>
-
-
-
 </project>
