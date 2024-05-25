@@ -1,0 +1,37 @@
+server:
+  port: 8083
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery.locator.enabled: true
+      routes:
+        - id: auth-id
+          uri: lb://auth
+          predicates:
+            Path=/auth/**
+          filters:
+            - AuthFilter
+        - id: kbn-id
+          uri: lb://kbn
+          predicates:
+            Path=/kbn/**
+          filters:
+            - AuthFilter
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-discovery:8761/eureka

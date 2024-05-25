@@ -34,3 +34,8 @@ springdoc:
     path: /kbn/api/v1/swagger
   api-docs:
     path: /kbn/v3/api-docs/swagger-config
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://service-discovery:8761/eureka

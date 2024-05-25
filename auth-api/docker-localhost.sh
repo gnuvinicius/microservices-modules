@@ -8,4 +8,4 @@ docker build --no-cache \
   --build-arg POSTGRES_PASSWD=2AkByM4NfHFkeJz --tag auth-api:staging .
             
 docker rm auth-d -f
-docker run -d -p 8080:8080 --name auth-d auth-api:staging
+docker run -d --name auth-d -p 8080:8080 --restart always --link service-discovery auth-api:staging
