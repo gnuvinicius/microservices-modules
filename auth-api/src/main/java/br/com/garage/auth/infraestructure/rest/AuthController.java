@@ -50,7 +50,7 @@ public class AuthController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping(value = "/validate-token")
+	@PostMapping(value = "/validate-token")
 	public ResponseEntity<?> validateToken(@RequestParam(name = "token") String token) throws Exception {
 		UserDto user = service.validateToken(token);
 		return ResponseEntity.ok(user);

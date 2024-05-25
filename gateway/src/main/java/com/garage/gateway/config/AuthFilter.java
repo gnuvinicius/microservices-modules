@@ -34,7 +34,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
       return webClientBuider.build()
         .post()
-        .uri("http://auth/auth/api/v1/validate-token?token=" + parts[1])
+        .uri("http://auth-api/auth/api/v1/validate-token?token=" + parts[1])
         .retrieve().bodyToMono(UserDto.class)
         .map(userDto -> {
           exchange.getRequest().mutate().header("X-auth-user-id", String.valueOf(userDto.getId()));

@@ -7,5 +7,5 @@ docker build --no-cache \
   --build-arg POSTGRES_HOST=192.168.0.220 \
   --build-arg POSTGRES_PASSWD=2AkByM4NfHFkeJz --tag auth-api:staging .
             
-docker rm auth-d -f
-docker run -d --name auth-d -p 8080:8080 --restart always --link service-discovery auth-api:staging
+docker rm auth-api -f
+docker run -d --name auth-api --network grg-net auth-api:staging

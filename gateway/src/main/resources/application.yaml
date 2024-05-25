@@ -16,22 +16,28 @@ spring:
   cloud:
     gateway:
       discovery.locator.enabled: true
+      discovery:
+        locator:
+          lower-case-service-id: true
       routes:
-        - id: auth-id
-          uri: lb://auth
+        - id: auth-api
+          uri: http://auth-api
           predicates:
-            Path=/auth/**
+            Path=/auth-api/**
+          # filters:
+          #   - AuthFilter
+        - id: kbn-api
+          uri: http://kbn-api
+          predicates:
+            Path=/kbn-api/**
           filters:
             - AuthFilter
-        - id: kbn-id
-          uri: lb://kbn
-          predicates:
-            Path=/kbn/**
-          filters:
-            - AuthFilter
-
 
 eureka:
+  instance:
+    hostname: gateway
   client:
+    register-with-eureka: true
+    fetch-registry: true
     serviceUrl:
       defaultZone: http://service-discovery:8761/eureka

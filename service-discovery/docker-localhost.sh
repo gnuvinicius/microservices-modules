@@ -9,4 +9,5 @@ docker build --no-cache \
             
 docker rm service-discovery -f
 docker run -d --restart always -p 8761:8761 \
+  --network grg-net \
  --name service-discovery service-discovery:staging
