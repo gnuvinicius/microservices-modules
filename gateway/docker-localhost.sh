@@ -8,5 +8,8 @@ docker build --no-cache \
   --tag gateway:staging .
             
 docker rm gateway -f
-docker run -d --restart always --network grg-net -p 8083:8083 \
- --name gateway gateway:staging
+docker run -d \
+  # --restart always \
+  --network grg-net \
+  -p 8083:8083 \
+  --name gateway gateway:staging

@@ -24,8 +24,6 @@ spring:
           uri: http://auth-api
           predicates:
             Path=/auth-api/**
-          # filters:
-          #   - AuthFilter
         - id: kbn-api
           uri: http://kbn-api
           predicates:
