@@ -9,6 +9,7 @@ import br.com.garage.auth.exceptions.BusinessException;
 import br.com.garage.auth.exceptions.NotFoundException;
 import br.com.garage.auth.infraestructure.rest.dtos.RequestRefreshPasswordDto;
 import br.com.garage.auth.infraestructure.rest.dtos.TokenDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UserDto;
 import br.com.garage.auth.infraestructure.rest.dtos.UserLoginRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -122,5 +123,12 @@ public class AuthService {
         String token = passwordEncoder.encode(usuario.getEmail() + usuario.getPassword() + LocalDateTime.now());
         usuario.ativaRefreshToken(token);
         authGateway.salvarUsuario(usuario);
+    }
+
+    public UserDto validateToken(String token) {
+        var result = tokenService.validateToken(token);
+        Usuario usuario = authGateway.buscaUsuarioPorEmail(result);
+        var user = new UserDto(usuario.getId(), usuario.getEmail(), token);
+        return user;
     }
 }

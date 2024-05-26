@@ -6,7 +6,7 @@ jwt:
 
 spring:
   application:
-    name: auth
+    name: auth-api
   jpa:
     open-in-view: false
     hibernate:
@@ -35,3 +35,11 @@ springdoc:
   api-docs:
     path: /auth/v3/api-docs/swagger-config
 
+eureka:
+  instance:
+    hostname: auth-api
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://service-discovery:8761/eureka

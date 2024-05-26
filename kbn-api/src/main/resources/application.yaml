@@ -3,11 +3,10 @@ server:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: 86400000
 
 spring:
   application:
-    name: kbn
+    name: kbn-api
   jpa:
     open-in-view: false
     hibernate:
@@ -28,3 +27,19 @@ spring:
     - public
     locations:
     - classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /kbn/api/v1/swagger
+  api-docs:
+    path: /kbn/v3/api-docs/swagger-config
+
+eureka:
+  instance:
+    hostname: kbn-api
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://service-discovery:8761/eureka

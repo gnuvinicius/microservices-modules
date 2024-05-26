@@ -1,16 +1,23 @@
 package br.com.garage.auth.infraestructure.rest;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.garage.auth.domains.service.AuthService;
 import br.com.garage.auth.infraestructure.rest.dtos.RequestRefreshPasswordDto;
 import br.com.garage.auth.infraestructure.rest.dtos.TokenDto;
+import br.com.garage.auth.infraestructure.rest.dtos.UserDto;
 import br.com.garage.auth.infraestructure.rest.dtos.UserLoginRequestDto;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Validated
@@ -41,5 +48,11 @@ public class AuthController {
 	public ResponseEntity<?> updatePasswordByRefreshToken(@RequestBody RequestRefreshPasswordDto dto) throws Exception {
 		service.updatePasswordByRefreshToken(dto);
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping(value = "/validate-token")
+	public ResponseEntity<?> validateToken(@RequestParam(name = "token") String token) throws Exception {
+		UserDto user = service.validateToken(token);
+		return ResponseEntity.ok(user);
 	}
 }

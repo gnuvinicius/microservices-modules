@@ -1,5 +1,21 @@
 package br.com.garage.kbn.interfaces.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.com.garage.kbn.dto.ProjetoDTO;
 import br.com.garage.kbn.dto.TaskDTO;
 import br.com.garage.kbn.model.schema.Projeto;
@@ -8,17 +24,6 @@ import br.com.garage.kbn.repository.ProjetoRepository;
 import br.com.garage.kbn.repository.TaskRepository;
 import br.com.garage.kbn.shared.AbstractResource;
 import br.com.garage.kbn.shared.MessageError;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/kbn/api/v1")
@@ -30,25 +35,24 @@ public class KbnResource extends AbstractResource {
     @Autowired
     private TaskRepository taskRepository;
 
-    @GetMapping("/projetos")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getAll() {
-        loadJwtRequest();
+    @GetMapping("/projetos/{tenantId}")
+    public ResponseEntity<?> getAll(@PathVariable String tenantId) {
         try {
-            return ResponseEntity.ok(projetoRepository.findByTenantId(UUID.fromString(request.tenantId())));
+            return ResponseEntity.ok(projetoRepository.findByTenantId(UUID.fromString(tenantId)));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new MessageError(400, e.getMessage()));
         }
     }
 
-    @PostMapping("/projetos")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> cadastraProjeto(@RequestBody ProjetoDTO dto) throws URISyntaxException {
+    @PostMapping("/projetos/{tenantId}/{userId}")
+    public ResponseEntity<?> cadastraProjeto(
+            @RequestBody ProjetoDTO dto, @PathVariable String tenantId, @PathVariable String userId)
+            throws URISyntaxException {
         logger.info("iniciando cadastro novo projeto");
 
         try {
             loadJwtRequest();
-            var projeto = new Projeto(dto.getTitulo(), request.tenantId(), request.userId());
+            var projeto = new Projeto(dto.getTitulo(), tenantId, userId);
 
             Projeto entity = projetoRepository.save(projeto);
             logger.info("cadastro realizado com sucesso: {}", entity.getTitulo());
@@ -58,16 +62,15 @@ public class KbnResource extends AbstractResource {
         }
     }
 
-    @PostMapping("/tasks")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> cadastraTask(@RequestBody TaskDTO dto) {
+    @PostMapping("/tasks/{tenantId}/{userId}")
+    public ResponseEntity<?> cadastraTask(@RequestBody TaskDTO dto, @PathVariable String tenantId, @PathVariable String userId) {
         loadJwtRequest();
         Optional<Projeto> optional = projetoRepository.findById(dto.projetoId);
 
         try {
             if (optional.isPresent()) {
                 optional.ifPresent(projeto -> {
-                    taskRepository.save(new Task(dto.titulo, request.tenantId(), request.userId(), projeto));
+                    taskRepository.save(new Task(dto.titulo, tenantId, userId, projeto));
                     logger.info("task: {} adicionada ao prejeto: {}", dto.titulo, dto.projetoId);
                 });
                 return ResponseEntity.ok().build();

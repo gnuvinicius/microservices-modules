@@ -1,4 +1,4 @@
-package com.garage.auth.utils;
+package br.com.garage.auth.utils;
 
 public class AssertionConcern {
 

@@ -5,14 +5,13 @@
 
     <groupId>br.com.garage</groupId>
     <artifactId>microservices</artifactId>
-    <version>1.0.0</version>
+    <version>staging</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>auth-api</module>
         <module>kbn-api</module>
+        <module>service-discovery</module>
+        <module>gateway</module>
     </modules>
-
-
-
 </project>
